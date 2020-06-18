@@ -57,18 +57,39 @@ Exercise.prototype.save = function (res) {
  * @param {string} id
  * @param {Response} res
  */
-Exercise.getLogById = function (id, res) {
-    user.findOne({ _id: id }, function (err, doc) {
+Exercise.getLogById = function (req, res) {
+    let { userId, from, to, limit } = req.query
+
+    let query = { _id: userId }
+
+    user.findOne({ _id: userId }, function (err, doc) {
         if (err) {
             res.json({ error: 'Could not get the user!' })
         }
 
-        res.json({
-            _id: doc._id,
-            username: doc.username,
-            count: doc.count,
-            log: doc.log,
+        let { log } = doc
+
+        let filteredLog = log.filter(function (each) {
+            return (
+                Date.parse(each.date) >= Date.parse(from) &&
+                Date.parse(each.date) < Date.parse(to)
+            )
         })
+
+        filteredLog.length
+            ? res.json({
+                  userId: doc._id,
+                  username: doc.username,
+                  from: new Date(from).toDateString(),
+                  to: new Date(to).toDateString(),
+                  log: filteredLog,
+              })
+            : res.json({
+                  _id: doc._id,
+                  username: doc.username,
+                  count: doc.count,
+                  log: doc.log,
+              })
     })
 }
 
