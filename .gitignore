@@ -1,0 +1,13 @@
+# Misc Directories
+.vscode
+.playground
+
+# Node Modules
+node_modules
+
+.bashrc
+.env
+.hyperdev-assets
+
+# Yarn
+yarn.lock
