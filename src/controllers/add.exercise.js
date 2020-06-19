@@ -2,12 +2,17 @@ const Exercise = require('../exercise')
 
 function addExercise(req, res) {
     try {
-        let { userId, description, duration } = req.body
+        let { userId, description, duration, date } = req.body
 
-        if (userId && description && duration) {
-            new Exercise(req).save(res)
+        if (!Date.parse(date)) {
+            res.json({ error: 'Invalid date!' })
         } else {
-            res.json({ error: 'Please fill out all the fields!' })
+            if (userId && description && duration) {
+                let newSession = new Exercise(req)
+                newSession.save(res)
+            } else {
+                res.json({ error: 'Please fill out all the fields!' })
+            }
         }
     } catch (err) {
         console.log(err)
