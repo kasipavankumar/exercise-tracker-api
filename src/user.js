@@ -1,4 +1,3 @@
-const { nanoid } = require('nanoid')
 const objectId = require('mongodb').ObjectID
 
 const user = require('../src/models/user.model')
