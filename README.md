@@ -1,6 +1,6 @@
 # Exercise Tracker API
 
-### Simple REST API for Exercise tracking.
+### A REST API for Exercise tracking.
 
 <div align="center">
 
@@ -28,6 +28,8 @@
 5. `npm start` or `yarn start`
 6. The API server will start at `http://localhost:3000` unless configured in .env file.
 
+---
+
 #### Technology Stack
 
 1. Express
@@ -36,8 +38,4 @@
 
 ---
 
-<small>
-
-Built as a part of [freeCodeCamp's Microservices Certification course](https://www.freecodecamp.org/learn/apis-and-microservices/managing-packages-with-npm/).
-
-</small>
+<small>Built as a part of [freeCodeCamp's Microservices Certification course](https://www.freecodecamp.org/learn/apis-and-microservices/managing-packages-with-npm/).</small>
