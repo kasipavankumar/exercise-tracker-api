@@ -4,7 +4,7 @@ function addExercise(req, res) {
     try {
         let { userId, description, duration, date } = req.body
 
-        if (!Date.parse(date)) {
+        if (date.length && !Date.parse(date)) {
             res.json({ error: 'Invalid date!' })
         } else {
             if (userId && description && duration) {

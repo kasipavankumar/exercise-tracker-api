@@ -82,6 +82,10 @@ Exercise.getLogById = function (req, res) {
         } else {
             let { log } = doc
 
+            log.sort(function (a, b) {
+                return Date.parse(b.date) - Date.parse(a.date)
+            })
+
             let cleanLog = log.map(function (each) {
                 return {
                     description: each.description,
@@ -90,27 +94,42 @@ Exercise.getLogById = function (req, res) {
                 }
             })
 
-            let filteredLog = log.filter(function (each) {
-                return (
-                    Date.parse(each.date) >= Date.parse(from) &&
-                    Date.parse(each.date) < Date.parse(to)
-                )
-            })
+            if (from || to) {
+                let filteredLog = log.filter(function (each) {
+                    return from && !to
+                        ? Date.parse(each.date) >= Date.parse(from)
+                        : Date.parse(each.date) >= Date.parse(from) &&
+                              Date.parse(each.date) < Date.parse(to)
+                })
 
-            filteredLog.length
-                ? res.json({
-                      userId: doc._id,
-                      username: doc.username,
-                      from: new Date(from).toDateString(),
-                      to: new Date(to).toDateString(),
-                      log: filteredLog,
-                  })
-                : res.json({
-                      _id: doc._id,
-                      username: doc.username,
-                      count: doc.count,
-                      log: cleanLog,
-                  })
+                if (limit) {
+                    filteredLog = filteredLog.filter(function (each, index) {
+                        return index < parseInt(limit)
+                    })
+                }
+
+                from && !to
+                    ? res.json({
+                          userId: doc._id,
+                          username: doc.username,
+                          from: new Date(from).toDateString(),
+                          log: filteredLog,
+                      })
+                    : res.json({
+                          userId: doc._id,
+                          username: doc.username,
+                          from: new Date(from).toDateString(),
+                          to: new Date(to).toDateString(),
+                          log: filteredLog,
+                      })
+            } else {
+                res.json({
+                    userId: doc._id,
+                    username: doc.username,
+                    count: doc.count,
+                    log: cleanLog,
+                })
+            }
         }
     })
 }
