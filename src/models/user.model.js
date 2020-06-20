@@ -13,7 +13,6 @@ let exerciseLog = new Schema({
     },
     date: {
         type: String,
-        default: new Date().toUTCString(),
     },
 })
 
