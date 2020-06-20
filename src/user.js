@@ -1,11 +1,6 @@
-const shortid = require('shortid')
+const { nanoid } = require('nanoid')
 
 const user = require('../src/models/user.model')
-
-/** Generate short ids from these chars. */
-shortid.characters(
-    '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@'
-)
 
 /** User class to handle all the user related operations. */
 class User {
@@ -33,7 +28,7 @@ User.prototype.save = function (res) {
         } else {
             let newUser = new user({
                 username: username,
-                _id: shortid.generate(),
+                _id: nanoid(24),
             })
 
             newUser
@@ -61,22 +56,30 @@ User.prototype.save = function (res) {
  * @param {Response} res
  */
 User.getAllUsers = function (res) {
-    user.find({}, function (err, users) {
-        if (err) {
-            res.json({ error: 'Could not get users!' })
-        }
-
-        let userData = []
-
-        users.forEach(function (user) {
-            userData.push({
-                _id: user._id,
-                username: user.username,
-            })
+    user.find({})
+        .select('_id username __v')
+        .exec(function (err, doc) {
+            err ? res.json({ error: 'Could not fetch users!' }) : res.json(doc)
         })
-
-        res.json(userData)
-    })
 }
 
 module.exports = User
+
+// function (err, users) {
+//     if (err) {
+//         res.json({ error: 'Could not get users!' })
+//     }
+
+//     let userData = []
+
+//     console.log(users)
+
+//     users.forEach(function (user) {
+//         userData.push({
+//             _id: user._id,
+//             username: user.username,
+//         })
+//     })
+
+//     res.json(users)
+// }
