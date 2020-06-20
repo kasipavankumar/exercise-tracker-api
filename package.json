@@ -4,7 +4,8 @@
     "description": "A REST API project, part of Free Code Camp's curriculum",
     "main": "server.js",
     "scripts": {
-        "start": "nodemon server.js"
+        "start": "nodemon server.js",
+        "test": "mocha"
     },
     "dependencies": {
         "body-parser": "^1.19.0",
@@ -28,6 +29,9 @@
         "express"
     ],
     "devDependencies": {
+        "chai": "^4.2.0",
+        "mocha": "^8.0.1",
+        "node-fetch": "^2.6.0",
         "nodemon": "^2.0.4"
     }
 }

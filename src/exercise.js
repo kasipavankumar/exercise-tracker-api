@@ -52,7 +52,7 @@ Exercise.prototype.save = function (res) {
                 let { description, duration, date } = log[0]
 
                 res.json({
-                    userId: doc._id,
+                    _id: doc._id,
                     description: description,
                     duration: duration,
                     date: new Date(date).toDateString(),
@@ -92,6 +92,10 @@ Exercise.getLogById = function (req, res) {
                 }
             })
 
+            if (limit) {
+                cleanLog = cleanLog.slice(0, parseInt(limit))
+            }
+
             if (from || to) {
                 let filteredLog = log.filter(function (each) {
                     return from && !to
@@ -116,14 +120,14 @@ Exercise.getLogById = function (req, res) {
 
                 from && !to
                     ? res.json({
-                          userId: doc._id,
+                          _id: doc._id,
                           username: doc.username,
                           from: new Date(from).toDateString(),
                           count: filteredLog.length,
                           log: filteredLog,
                       })
                     : res.json({
-                          userId: doc._id,
+                          _id: doc._id,
                           username: doc.username,
                           from: new Date(from).toDateString(),
                           to: new Date(to).toDateString(),
@@ -132,9 +136,9 @@ Exercise.getLogById = function (req, res) {
                       })
             } else {
                 res.json({
-                    userId: doc._id,
+                    _id: doc._id,
                     username: doc.username,
-                    count: doc.count,
+                    count: cleanLog.length,
                     log: cleanLog,
                 })
             }
