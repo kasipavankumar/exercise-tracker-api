@@ -2,11 +2,8 @@
 
 ### A REST API for Exercise tracking.
 
-<div align="center">
-
 [![MongoDB Atlas](https://img.shields.io/badge/Database-MongoDB%20Atlas-brightgreen?style=for-the-badge&logo=mongodb&color=14aa50)](https://www.mongodb.com/cloud/atlas)
-
-</div>
+[![Glitch](https://img.shields.io/badge/Remix-Glitch-ff8177?style=for-the-badge&logo=glitch)](https://glitch.com/edit/#!/remix/clone-from-repo?&REPO_URL=https://github.com/code-plus-coffee/exercise-tracker-api.git)
 
 ---
 
@@ -37,5 +34,9 @@
 3. Mongoose
 
 ---
+
+#### Note
+
+In order to make the server run on Glitch, make sure to follow the step #3 mentioned in the [usage](https://github.com/code-plus-coffee/exercise-tracker-api#usage) section.
 
 <small>Built as a part of [freeCodeCamp's Microservices Certification course](https://www.freecodecamp.org/learn/apis-and-microservices/managing-packages-with-npm/).</small>
