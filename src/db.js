@@ -1,27 +1,31 @@
-let mongoose = require('mongoose')
+const mongoose = require('mongoose')
 require('dotenv').config()
-
-const { log } = console
-const MONGO_URI = process.env.MONGO_URI
 
 class Database {
     constructor() {
+        this.MONGO_URI = process.env.MONGO_URI
+        this.db = mongoose.connection
         this._connect()
     }
 
     _connect() {
         mongoose
-            .connect(MONGO_URI, {
+            .connect(this.MONGO_URI, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useFindAndModify: false,
             })
-            .then(function () {
-                log('Successfully connected to database!')
+            .catch(function (error) {
+                console.error(`Connection to the database failed: ${error}`)
             })
-            .catch(function (err) {
-                log('Failed connection to the database!', err)
-            })
+
+        this.db.on('error', function (error) {
+            console.error(`Connection error: ${error}`)
+        })
+
+        this.db.once('open', function () {
+            console.info(`Connection to database opened.`)
+        })
     }
 }
 

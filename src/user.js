@@ -1,4 +1,5 @@
 const { nanoid } = require('nanoid')
+const objectId = require('mongodb').ObjectID
 
 const user = require('../src/models/user.model')
 
@@ -28,7 +29,7 @@ User.prototype.save = function (res) {
         } else {
             let newUser = new user({
                 username: username,
-                _id: nanoid(24),
+                _id: new objectId(),
             })
 
             newUser

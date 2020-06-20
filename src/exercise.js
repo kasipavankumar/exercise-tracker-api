@@ -14,9 +14,7 @@ class Exercise {
         this.userId = userId
         this.description = description
         this.duration = parseInt(duration)
-        this.date = date
-            ? new Date(date).toDateString()
-            : new Date().toDateString()
+        this.date = date ? new Date(date) : new Date()
     }
 }
 
@@ -57,7 +55,7 @@ Exercise.prototype.save = function (res) {
                     userId: doc._id,
                     description: description,
                     duration: duration,
-                    date: date,
+                    date: new Date(date).toDateString(),
                     username: doc.username,
                 })
             })
@@ -90,7 +88,7 @@ Exercise.getLogById = function (req, res) {
                 return {
                     description: each.description,
                     duration: each.duration,
-                    date: each.date,
+                    date: new Date(each.date).toDateString(),
                 }
             })
 
@@ -99,20 +97,29 @@ Exercise.getLogById = function (req, res) {
                     return from && !to
                         ? Date.parse(each.date) >= Date.parse(from)
                         : Date.parse(each.date) >= Date.parse(from) &&
-                              Date.parse(each.date) < Date.parse(to)
+                              Date.parse(each.date) <= Date.parse(to)
                 })
 
                 if (limit) {
-                    filteredLog = filteredLog.filter(function (each, index) {
+                    filteredLog = filteredLog.filter(function (_, index) {
                         return index < parseInt(limit)
                     })
                 }
+
+                filteredLog = filteredLog.map(function (each) {
+                    return {
+                        description: each.description,
+                        duration: each.duration,
+                        date: new Date(each.date).toDateString(),
+                    }
+                })
 
                 from && !to
                     ? res.json({
                           userId: doc._id,
                           username: doc.username,
                           from: new Date(from).toDateString(),
+                          count: filteredLog.length,
                           log: filteredLog,
                       })
                     : res.json({
@@ -120,6 +127,7 @@ Exercise.getLogById = function (req, res) {
                           username: doc.username,
                           from: new Date(from).toDateString(),
                           to: new Date(to).toDateString(),
+                          count: filteredLog.length,
                           log: filteredLog,
                       })
             } else {

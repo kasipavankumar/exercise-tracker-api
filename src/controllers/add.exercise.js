@@ -11,7 +11,7 @@ function addExercise(req, res) {
                 let newSession = new Exercise(req)
                 newSession.save(res)
             } else {
-                res.json({ error: 'Please fill out all the fields!' })
+                res.send({ error: 'Please fill out all the fields!' })
             }
         }
     } catch (err) {
